@@ -6,7 +6,7 @@ st.title("✨인공지능 영어 조교: 잉글링👱🏾‍♂️")
 st.header("📝영어 텍스트 생성기")
 
 # OpenAI API 키 설정
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+client = OpenAI(api_key=st.secrets["openai_api_key"])
 
 # 사용자 입력 받기
 grade = st.selectbox("학년 선택", ["3학년", "4학년", "5학년", "6학년"])
