@@ -62,7 +62,7 @@ if st.button("텍스트 생성"):
         A: No, you may not. You can't ride a bike at Gyeongbokgung.
 
         이 예시들을 참고하여 요청한 조건에 맞는 새로운 텍스트를 생성해주세요. 
-        짧은 대화나 이야기 형식도 가능합니다.일기 형식, 편지 형식, 역할극 형식, 안내문 형식 등 다양하게 생성해주세요. 초등학생이 알아보기 쉽게 한문장이 끝날때마다 줄바꿈을 꼭 하세요.
+        짧은 대화나 이야기 형식도 가능합니다. 초등학생이 알아보기 쉽게 한문장이 끝날때마다 줄바꿈을 꼭 하세요.
         """
 
         response = client.chat.completions.create(
