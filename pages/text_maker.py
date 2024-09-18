@@ -2,8 +2,8 @@ import streamlit as st
 from openai import OpenAI
 import os
 
-st.title("✨인공지능 영어 조교: 잉글링👱🏾‍♂️")
-st.header("📝영어 텍스트 생성기")
+st.title("✨인공지능 영어 조교 버틀링🤵")
+st.subheader("📝영어 텍스트 생성기")
 # 확장 설명
 with st.expander("❗❗ 글상자를 펼쳐 사용방법을 읽어보세요 👆✅", expanded=False):
     st.markdown(
