@@ -14,7 +14,7 @@ st.subheader("🎶외국어 노래 학습 도우미🎵")
 # 사용자 입력 받기
 song_input = st.text_area("🎼노래 가사를 입력하세요:")
 
-if st.button("분석하기"):
+if st.button("번역하기"):
     if song_input:
         # OpenAI API를 사용하여 가사 분석 및 번역
         response = client.chat.completions.create(
