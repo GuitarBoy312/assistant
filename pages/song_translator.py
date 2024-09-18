@@ -65,4 +65,4 @@ st.sidebar.write("1. 노래 제목이나 가사를 입력란에 붙여넣으세�
 st.sidebar.write("2. '분석하기' 버튼을 클릭하세요.")
 st.sidebar.write("3. 전체 가사 번역, 발음 가이드, 주요 단어, 노래 메시지를 확인하세요.")
 st.sidebar.write("4. 원어 발음을 들어보세요.")
-st.sidebar.write("5. 노래와 관련된 이미지를 감상하세요.")
+
