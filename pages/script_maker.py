@@ -18,7 +18,7 @@ def generate_scripts(expression, grade, topic, participants, num_scripts, script
     각 캐릭터의 대사 앞에 각자 다른 특징적인 이모지를 넣어주세요. 같은 캐릭터에는 항상 같은 이모지를 사용하세요.
     예를 들어:
     🧑 Tom: Hello, how are you?
-    👧 Sarah: I'm fine, thank you!
+    👱🏻‍♀️ Sarah: I'm fine, thank you!
     이런 식으로 각 캐릭터마다 다른 이모지를 사용해 주세요."""
     
     if topic:
@@ -44,7 +44,7 @@ num_scripts = st.slider("🔸생성할 대본 개수를 선택하세요:", min_v
 script_length = st.selectbox("🔸대본의 길이를 선택하세요:", options=["짧게", "보통", "길게"], index=1)
 topic = st.text_input("🔸주제를 입력하세요 (선택사항, 예: smurfs, pokemon, etc.):")
 
-if st.button("대본 만들기"):
+if st.button("📝대본 만들기"):
     if expression:
         scripts = generate_scripts(expression, grade, topic, participants, num_scripts, script_length)
         st.write(scripts)
