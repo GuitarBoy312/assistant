@@ -34,7 +34,7 @@ def generate_scripts(expression, grade, topic, participants, num_scripts, script
     return response.choices[0].message.content
 
 st.title("✨인공지능 영어 조교 버틀링🤵")
-st.subheader("🎭초등학생을 위한 영어 역할극 대본 생성기📝")
+st.subheader("✨인공지능 영어 역할극 대본 생성기🎭")
 
 # 확장 설명
 with st.expander("❗❗ 글상자를 펼쳐 사용방법을 읽어보세요 👆✅", expanded=False):
