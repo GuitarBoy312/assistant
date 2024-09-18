@@ -27,13 +27,6 @@ if st.button("텍스트 생성"):
         생성된 텍스트는 EFL 환경의 초등학교 영어 수업에서 사용하기에 적합해야 합니다.
         다음과 같은 형식의 간단하고 명확한 문장을 사용해주세요:
 
-        예시 1:
-        Hello, my name is Jack.
-        I am from the U.K.
-        I am eleven years old.
-        I like fish and chips.
-        I can play soccer well.
-
         예시 2:
         Tony's Missing Cake
         Tony's cake is missing.
@@ -62,7 +55,7 @@ if st.button("텍스트 생성"):
         A: No, you may not. You can't ride a bike at Gyeongbokgung.
 
         이 예시들을 참고하여 요청한 조건에 맞는 새로운 텍스트를 생성해주세요. 
-        짧은 대화 형식으로 만들어 주세요. 초등학생이 알아보기 쉽게 한문장이 끝날때마다 줄바꿈을 꼭 하세요.
+        짧은 역할극 형식으로 만들어 주세요. 역할마다 알맞은 이모지를 앞에 붙여주세요. 초등학생이 알아보기 쉽게 한문장이 끝날때마다 줄바꿈을 꼭 하세요.
         """
 
         response = client.chat.completions.create(
