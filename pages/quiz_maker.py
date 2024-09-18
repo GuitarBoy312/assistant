@@ -1,4 +1,4 @@
-simport streamlit as st
+import streamlit as st
 from openai import OpenAI
 
 # OpenAI 클라이언트 초기화
