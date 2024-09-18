@@ -4,6 +4,19 @@ import os
 
 st.title("✨인공지능 영어 조교: 잉글링👱🏾‍♂️")
 st.header("📝영어 텍스트 생성기")
+# 확장 설명
+with st.expander("❗❗ 글상자를 펼쳐 사용방법을 읽어보세요 👆✅", expanded=False):
+    st.markdown(
+    """     
+    1️⃣ 학년, 영어 수준, 텍스트 길이 길이를 설정하세요.<br>
+    2️⃣ 텍스트에 포함되기 원하는 Key expressions, 단어 등을 입력하세요.<br>
+    3️⃣ 생성된 텍스트를 확인하고 다운 받으세요.<br>
+    4️⃣ 
+    <br>
+    🙏 생성된 역할극이 적절하지 않을 수 있습니다.<br> 
+    🙏 그럴 때에는 다시 [대본 만들기] 버튼을 눌러주세요.
+    """
+    , unsafe_allow_html=True)
 
 # OpenAI API 키 설정
 client = OpenAI(api_key=st.secrets["openai_api_key"])
