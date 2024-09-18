@@ -65,7 +65,7 @@ if st.button("📝대본 만들기"):
         # 다운로드 버튼 추가
         st.download_button(
             label="📥 텍스트 파일로 다운로드",
-            data=scripts,
+            data=all_content,
             file_name="generated_scripts.txt",
             mime="text/plain"
         )
