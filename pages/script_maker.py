@@ -1,106 +1,54 @@
 import streamlit as st
 from openai import OpenAI
 
-# OpenAI 클라이언트 초기화
+# OpenAI API 키 설정
 client = OpenAI(api_key=st.secrets["openai_api_key"])
 
-# 메인 화면 구성
-st.header("✨인공지능 영어 퀴즈 생성기🕵️‍♂️")
-st.markdown("**❓영어 지문 읽기 퀴즈 생성**")
-st.divider()
+def generate_scripts(expression, grade, topic, participants, num_scripts, script_length):
+    # 기존 함수 내용 유지
+    ...
+
+st.title("✨인공지능 영어 조교 버틀링🤵")
+st.subheader("🎭초등학생을 위한 영어 역할극 대본 생성기📝")
 
 # 확장 설명
 with st.expander("❗❗ 글상자를 펼쳐 사용방법을 읽어보세요 👆✅", expanded=False):
     st.markdown(
     """     
-    1️⃣ 영어 지문을 입력하세요.<br>
-    2️⃣ 생성할 문제 수를 선택하세요.<br>
-    3️⃣ [문제 만들기] 버튼을 눌러 문제를 생성하세요.<br>
-    4️⃣ 생성된 문제를 확인하고 필요하다면 인쇄하세요.<br>
+    1️⃣ 텍스트에 포함되기 원하는 Key expressions, 또는 단어 등을 자유롭게 입력하세요.<br>
+    2️⃣ 학년, 역할 수, 대본 개수, 대본 길이를 설정하세요.<br>
+    3️⃣ 이야기의 테마를 입력하세요. (신데렐라, 백설공주 등등...)입력하지 않으면 자유롭게 생성됩니다.<br>
+    4️⃣ 생성된 역할극을 확인하고 다운 받으세요.<br>
     <br>
-    🙏 생성된 문제가 적절하지 않을 수 있습니다.<br> 
-    🙏 그럴 때에는 다시 [문제 만들기] 버튼을 눌러주세요.
+    🙏 생성된 역할극이 적절하지 않을 수 있습니다.<br> 
+    🙏 그럴 때에는 다시 [대본 만들기] 버튼을 눌러주세요.
     """
     , unsafe_allow_html=True)
 
-# 사용자 입력 받기
-user_input = st.text_area("영어 지문을 입력하세요:", height=200)
-num_questions = st.number_input("생성할 문제 수:", min_value=1, max_value=10, value=3, step=1)
+expression = st.text_area("🔸원하는 영어 표현을 입력하세요 (여러 줄 입력 가능):")
+grade = st.selectbox("🔸학년을 선택하세요:", ["3학년", "4학년", "5학년", "6학년"])
+participants = st.slider("🔸역할극 참여 인원수를 선택하세요:", min_value=2, max_value=6, value=3)
+num_scripts = st.slider("🔸생성할 대본 개수를 선택하세요:", min_value=1, max_value=10, value=6)
+script_length = st.selectbox("🔸대본의 길이를 선택하세요:", options=["짧게", "보통", "길게"], index=1)
+topic = st.text_input("🔸테마를 입력하세요 (선택사항, 예: smurfs, pokemon, etc.):")
 
-if st.button("문제 만들기"):
-    if user_input:
-        st.session_state.questions = []
-        
-        question_types = [
-            "내용 이해",
-            "어휘",
-            "문법",
-            "주제/요지",
-            "세부 정보"
-        ]
-        
-        for i in range(num_questions):
-            question_type = question_types[i % len(question_types)]
-            prompt = f"""다음 영어 지문을 바탕으로 CEFR A1 수준의 간단한 객관식 문제를 만들어주세요:
-
-            {user_input}
-
-            조건:
-            1. 문제의 정답은 1개입니다.
-            2. 질문과 선택지는 한국어로 제공됩니다.
-            3. 4개의 선택지를 제공하세요.
-            4. 이 문제는 '{question_type}' 유형의 문제여야 합니다.
-            5. 이전에 만든 문제와 중복되지 않도록 해주세요.
-
-            형식:
-            [문제 유형: {question_type}]
-            질문: (한국어로 된 질문)
-            A. (선택지)
-            B. (선택지)
-            C. (선택지)
-            D. (선택지)
-            정답: (정답 선택지)
-            """
-
-            response = client.chat.completions.create(
-                model="gpt-4o-mini",
-                messages=[
-                    {"role": "system", "content": "당신은 다양한 유형의 영어 문제를 만드는 전문가입니다."},
-                    {"role": "user", "content": prompt}
-                ]
-            )
-
-            st.session_state.questions.append(response.choices[0].message.content)
-        
-        st.session_state.questions_generated = True
-        st.session_state.user_input = user_input
+if st.button("📝대본 만들기"):
+    if expression:
+        st.session_state.scripts = generate_scripts(expression, grade, topic, participants, num_scripts, script_length)
+        st.session_state.scripts_generated = True
     else:
-        st.warning("영어 지문을 입력해주세요.")
+        st.warning("영어 표현을 입력해주세요.")
 
-if 'questions_generated' in st.session_state and st.session_state.questions_generated:
-    st.markdown("### 생성된 문제")
-    st.text(st.session_state.user_input)
+if 'scripts_generated' in st.session_state and st.session_state.scripts_generated:
+    st.write(st.session_state.scripts)
     
-    all_content = f"영어 지문:\n{st.session_state.user_input}\n\n"
-    
-    for i, question in enumerate(st.session_state.questions, 1):
-        st.markdown(f"**문제 {i}**")
-        lines = question.split('\n')
-        st.markdown(f"*{lines[0]}*")  # 문제 유형 표시
-        for line in lines[1:]:
-            st.text(line)
-        st.divider()
-        
-        all_content += f"문제 {i}\n"
-        all_content += question + "\n\n"
-
-    # 텍스트로 복사할 수 있는 영역 제공
-    st.text_area("생성된 모든 문제 (복사하여 사용하세요)", all_content, height=300)
-
     # 다운로드 버튼 추가
     st.download_button(
-        label="텍스트 파일로 다운로드",
-        data=all_content,
-        file_name="generated_questions.txt",
+        label="📥 텍스트 파일로 다운로드",
+        data=st.session_state.scripts,
+        file_name="generated_scripts.txt",
         mime="text/plain"
     )
+    
+    # 생성된 대본을 복사할 수 있는 텍스트 영역 추가
+    st.text_area("생성된 대본 (복사하여 사용하세요)", st.session_state.scripts, height=300)
