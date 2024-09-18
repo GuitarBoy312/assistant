@@ -1,44 +1,12 @@
 import streamlit as st
 from openai import OpenAI
-import random
-import base64
-from io import BytesIO
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
 
 # OpenAI 클라이언트 초기화
 client = OpenAI(api_key=st.secrets["openai_api_key"])
 
-# 한글 폰트 등록 (예: 나눔고딕)
-pdfmetrics.registerFont(TTFont('NanumGothic', 'NanumGothic.ttf'))
-
-# PDF 생성 함수
-def create_pdf(content):
-    buffer = BytesIO()
-    p = canvas.Canvas(buffer, pagesize=letter)
-    p.setFont('NanumGothic', 12)
-    
-    text_object = p.beginText(40, 750)
-    for line in content.split('\n'):
-        text_object.textLine(line)
-    
-    p.drawText(text_object)
-    p.showPage()
-    p.save()
-    
-    buffer.seek(0)
-    return buffer
-
-# PDF 다운로드 링크 생성 함수
-def get_pdf_download_link(pdf, filename):
-    b64 = base64.b64encode(pdf.getvalue()).decode()
-    return f'<a href="data:application/pdf;base64,{b64}" download="{filename}">PDF 다운로드</a>'
-
 # 메인 화면 구성
-st.title("✨인공지능 영어 조교 버틀링🤵")
-st.subheader("📝영어 퀴즈 생성기")
+st.header("✨인공지능 영어 퀴즈 생성기🕵️‍♂️")
+st.markdown("**❓영어 지문 읽기 퀴즈 생성**")
 st.divider()
 
 # 확장 설명
@@ -126,11 +94,13 @@ if 'questions_generated' in st.session_state and st.session_state.questions_gene
         all_content += f"문제 {i}\n"
         all_content += question + "\n\n"
 
-    # PDF 생성 및 다운로드 링크 제공
-    pdf = create_pdf(all_content)
-    st.markdown(get_pdf_download_link(pdf, "generated_questions.pdf"), unsafe_allow_html=True)
-
     # 텍스트로 복사할 수 있는 영역 제공
     st.text_area("생성된 모든 문제 (복사하여 사용하세요)", all_content, height=300)
 
-# ... 기존 코드 ...
+    # 다운로드 버튼 추가
+    st.download_button(
+        label="텍스트 파일로 다운로드",
+        data=all_content,
+        file_name="generated_questions.txt",
+        mime="text/plain"
+    )
