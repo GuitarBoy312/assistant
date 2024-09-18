@@ -90,13 +90,4 @@ if 'result' in st.session_state:
         mime="text/plain"
     )
 
-# 파일 다운로드 기능 추가
-with open(__file__, "r", encoding="utf-8") as file:
-    file_contents = file.read()
 
-st.download_button(
-    label="📥 이 파일 다운로드",
-    data=file_contents,
-    file_name="text_maker.py",
-    mime="text/plain"
-)
