@@ -1,6 +1,5 @@
 import streamlit as st
 from openai import OpenAI
-import os
 
 # OpenAI API 키 설정
 client = OpenAI(api_key=st.secrets["openai_api_key"])
@@ -47,7 +46,7 @@ with st.expander("❗❗ 글상자를 펼쳐 사용방법을 읽어보세요 �
     4️⃣ 생성된 역할극을 확인하고 다운 받으세요.<br>
     <br>
     🙏 생성된 역할극이 적절하지 않을 수 있습니다.<br> 
-    🙏 그럴 때에는 다시 [문제 만들기] 버튼을 눌러주세요.
+    🙏 그럴 때에는 다시 [대본 만들기] 버튼을 눌러주세요.
     """
     , unsafe_allow_html=True)
 
@@ -62,5 +61,16 @@ if st.button("📝대본 만들기"):
     if expression:
         scripts = generate_scripts(expression, grade, topic, participants, num_scripts, script_length)
         st.write(scripts)
+        
+        # 다운로드 버튼 추가
+        st.download_button(
+            label="📥 텍스트 파일로 다운로드",
+            data=scripts,
+            file_name="generated_scripts.txt",
+            mime="text/plain"
+        )
+        
+        # 생성된 대본을 복사할 수 있는 텍스트 영역 추가
+        st.text_area("생성된 대본 (복사하여 사용하세요)", scripts, height=300)
     else:
         st.warning("영어 표현을 입력해주세요.")
