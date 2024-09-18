@@ -1,0 +1,136 @@
+import streamlit as st
+from openai import OpenAI
+import random
+import base64
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+
+# OpenAI 클라이언트 초기화
+client = OpenAI(api_key=st.secrets["openai_api_key"])
+
+# 한글 폰트 등록 (예: 나눔고딕)
+pdfmetrics.registerFont(TTFont('NanumGothic', 'NanumGothic.ttf'))
+
+# PDF 생성 함수
+def create_pdf(content):
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer, pagesize=letter)
+    p.setFont('NanumGothic', 12)
+    
+    text_object = p.beginText(40, 750)
+    for line in content.split('\n'):
+        text_object.textLine(line)
+    
+    p.drawText(text_object)
+    p.showPage()
+    p.save()
+    
+    buffer.seek(0)
+    return buffer
+
+# PDF 다운로드 링크 생성 함수
+def get_pdf_download_link(pdf, filename):
+    b64 = base64.b64encode(pdf.getvalue()).decode()
+    return f'<a href="data:application/pdf;base64,{b64}" download="{filename}">PDF 다운로드</a>'
+
+# 메인 화면 구성
+st.header("✨인공지능 영어 퀴즈 생성기🕵️‍♂️")
+st.markdown("**❓영어 지문 읽기 퀴즈 생성**")
+st.divider()
+
+# 확장 설명
+with st.expander("❗❗ 글상자를 펼쳐 사용방법을 읽어보세요 👆✅", expanded=False):
+    st.markdown(
+    """     
+    1️⃣ 영어 지문을 입력하세요.<br>
+    2️⃣ 생성할 문제 수를 선택하세요.<br>
+    3️⃣ [문제 만들기] 버튼을 눌러 문제를 생성하세요.<br>
+    4️⃣ 생성된 문제를 확인하고 필요하다면 인쇄하세요.<br>
+    <br>
+    🙏 생성된 문제가 적절하지 않을 수 있습니다.<br> 
+    🙏 그럴 때에는 다시 [문제 만들기] 버튼을 눌러주세요.
+    """
+    , unsafe_allow_html=True)
+
+# 사용자 입력 받기
+user_input = st.text_area("영어 지문을 입력하세요:", height=200)
+num_questions = st.number_input("생성할 문제 수:", min_value=1, max_value=10, value=3, step=1)
+
+if st.button("문제 만들기"):
+    if user_input:
+        st.session_state.questions = []
+        
+        question_types = [
+            "내용 이해",
+            "어휘",
+            "문법",
+            "주제/요지",
+            "세부 정보"
+        ]
+        
+        for i in range(num_questions):
+            question_type = question_types[i % len(question_types)]
+            prompt = f"""다음 영어 지문을 바탕으로 CEFR A1 수준의 간단한 객관식 문제를 만들어주세요:
+
+            {user_input}
+
+            조건:
+            1. 문제의 정답은 1개입니다.
+            2. 질문과 선택지는 한국어로 제공됩니다.
+            3. 4개의 선택지를 제공하세요.
+            4. 이 문제는 '{question_type}' 유형의 문제여야 합니다.
+            5. 이전에 만든 문제와 중복되지 않도록 해주세요.
+
+            형식:
+            [문제 유형: {question_type}]
+            질문: (한국어로 된 질문)
+            A. (선택지)
+            B. (선택지)
+            C. (선택지)
+            D. (선택지)
+            정답: (정답 선택지)
+            """
+
+            response = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {"role": "system", "content": "당신은 다양한 유형의 영어 문제를 만드는 전문가입니다."},
+                    {"role": "user", "content": prompt}
+                ]
+            )
+
+            st.session_state.questions.append(response.choices[0].message.content)
+        
+        st.session_state.questions_generated = True
+        st.rerun()
+    else:
+        st.warning("영어 지문을 입력해주세요.")
+
+if 'questions_generated' in st.session_state and st.session_state.questions_generated:
+    st.markdown("### 생성된 문제")
+    st.text(user_input)
+    
+    all_content = f"영어 지문:\n{user_input}\n\n"
+    
+    for i, question in enumerate(st.session_state.questions, 1):
+        st.markdown(f"**문제 {i}**")
+        lines = question.split('\n')
+        st.markdown(f"*{lines[0]}*")  # 문제 유형 표시
+        for line in lines[1:]:
+            st.text(line)
+        st.divider()
+        
+        all_content += f"문제 {i}\n"
+        all_content += question + "\n\n"
+
+    # PDF 생성 및 다운로드 링크 제공
+    pdf = create_pdf(all_content)
+    st.markdown(get_pdf_download_link(pdf, "generated_questions.pdf"), unsafe_allow_html=True)
+
+    # 텍스트로 복사할 수 있는 영역 제공
+    st.text_area("생성된 모든 문제 (복사하여 사용하세요)", all_content, height=300)
+
+# ... 기존 코드 ...
