@@ -37,8 +37,8 @@ def get_pdf_download_link(pdf, filename):
     return f'<a href="data:application/pdf;base64,{b64}" download="{filename}">PDF 다운로드</a>'
 
 # 메인 화면 구성
-st.header("✨인공지능 영어 퀴즈 생성기🕵️‍♂️")
-st.markdown("**❓영어 지문 읽기 퀴즈 생성**")
+st.title("✨인공지능 영어 조교 버틀링🤵")
+st.subheader("📝영어 퀴즈 생성기")
 st.divider()
 
 # 확장 설명
