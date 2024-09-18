@@ -1,7 +1,6 @@
 import streamlit as st
 from openai import OpenAI
 import io
-import base64
 
 # OpenAI API 키 설정
 client = OpenAI(api_key=st.secrets["openai_api_key"])
@@ -9,6 +8,7 @@ client = OpenAI(api_key=st.secrets["openai_api_key"])
 # Streamlit 앱 제목 설정
 st.title("✨인공지능 영어 조교 버틀링🤵")
 st.subheader("🎶외국어 노래 학습 도우미🎵")
+
 # 확장 설명
 with st.expander("❗❗ 글상자를 펼쳐 사용방법을 읽어보세요 👆✅", expanded=False):
     st.markdown(
@@ -22,7 +22,7 @@ with st.expander("❗❗ 글상자를 펼쳐 사용방법을 읽어보세요 �
     🙏 그럴 때에는 다시 [번역하기] 버튼을 눌러주세요.
     """
     , unsafe_allow_html=True)
-    
+
 # 사용자 입력 받기
 song_input = st.text_area("🎼노래 가사를 입력하세요:")
 
@@ -43,23 +43,15 @@ if st.button("📝번역하기"):
             ]
         )
         
-        analysis = response.choices[0].message.content
+        st.session_state.analysis = response.choices[0].message.content
 
         # 결과 표시
         st.subheader("가사 분석")
         
         # 가사 분석과 추가 정보를 분리
-        parts = analysis.split("2. 초등학생이 배우면 좋을 단어", 1)
+        parts = st.session_state.analysis.split("2. 초등학생이 배우면 좋을 단어", 1)
         lyrics_analysis = parts[0].strip()
         st.write(lyrics_analysis)
-
-        # 텍스트 다운로드 버튼 추가
-        st.download_button(
-            label="📥 분석 결과 텍스트 파일로 다운로드",
-            data=analysis,
-            file_name="song_analysis.txt",
-            mime="text/plain"
-        )
 
         # 원어 발음 듣기 기능 (OpenAI TTS 사용)
         st.subheader("원어 발음 듣기")
@@ -72,18 +64,28 @@ if st.button("📝번역하기"):
             )
             
             # 오디오 데이터를 바이트 스트림으로 변환
-            audio_bytes = io.BytesIO(audio_response.content)
+            st.session_state.audio_bytes = io.BytesIO(audio_response.content)
             
             # Streamlit audio 위젯으로 재생
-            st.audio(audio_bytes, format="audio/mp3")
-            
-            # 음성 파일 다운로드 버튼 추가
-            st.download_button(
-                label="📥 음성 파일 다운로드",
-                data=audio_bytes,
-                file_name="song_audio.mp3",
-                mime="audio/mp3"
-            )
+            st.audio(st.session_state.audio_bytes, format="audio/mp3")
             
         except Exception as e:
             st.error(f"TTS API 호출 중 오류 발생: {str(e)}")
+
+# 분석 결과가 있을 때만 다운로드 버튼 표시
+if 'analysis' in st.session_state:
+    st.download_button(
+        label="📥 분석 결과 텍스트 파일로 다운로드",
+        data=st.session_state.analysis,
+        file_name="song_analysis.txt",
+        mime="text/plain"
+    )
+
+# 음성 파일이 있을 때만 다운로드 버튼 표시
+if 'audio_bytes' in st.session_state:
+    st.download_button(
+        label="📥 음성 파일 다운로드",
+        data=st.session_state.audio_bytes.getvalue(),
+        file_name="song_audio.mp3",
+        mime="audio/mp3"
+    )
