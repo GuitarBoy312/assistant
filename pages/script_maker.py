@@ -3,7 +3,7 @@ from openai import OpenAI
 import os
 
 # OpenAI API 키 설정
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+client = OpenAI(api_key=st.secrets["openai_api_key"])
 
 def generate_scripts(expression, grade, topic, participants, num_scripts, script_length):
     length_description = {
