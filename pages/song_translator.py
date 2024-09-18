@@ -1,8 +1,7 @@
 import streamlit as st
 from openai import OpenAI
-import os
-import base64
 import io
+import base64
 
 # OpenAI API 키 설정
 client = OpenAI(api_key=st.secrets["openai_api_key"])
@@ -19,8 +18,8 @@ with st.expander("❗❗ 글상자를 펼쳐 사용방법을 읽어보세요 �
     3️⃣ 전체 가사 번역, 발음 가이드, 주요 단어, 노래 메시지를 확인하세요. 다운로드 가능합니다.<br>
     4️⃣ 원어 발음 듣기를 활용해서 수업에 활용하세요. 다운로드도 가능합니다.<br>
     <br>
-    🙏 생성된 역할극이 적절하지 않을 수 있습니다.<br> 
-    🙏 그럴 때에는 다시 [대본 만들기] 버튼을 눌러주세요.
+    🙏 생성된 번역이 적절하지 않을 수 있습니다.<br> 
+    🙏 그럴 때에는 다시 [번역하기] 버튼을 눌러주세요.
     """
     , unsafe_allow_html=True)
     
@@ -54,6 +53,14 @@ if st.button("📝번역하기"):
         lyrics_analysis = parts[0].strip()
         st.write(lyrics_analysis)
 
+        # 텍스트 다운로드 버튼 추가
+        st.download_button(
+            label="📥 분석 결과 텍스트 파일로 다운로드",
+            data=analysis,
+            file_name="song_analysis.txt",
+            mime="text/plain"
+        )
+
         # 원어 발음 듣기 기능 (OpenAI TTS 사용)
         st.subheader("원어 발음 듣기")
         try:
@@ -70,7 +77,13 @@ if st.button("📝번역하기"):
             # Streamlit audio 위젯으로 재생
             st.audio(audio_bytes, format="audio/mp3")
             
+            # 음성 파일 다운로드 버튼 추가
+            st.download_button(
+                label="📥 음성 파일 다운로드",
+                data=audio_bytes,
+                file_name="song_audio.mp3",
+                mime="audio/mp3"
+            )
+            
         except Exception as e:
             st.error(f"TTS API 호출 중 오류 발생: {str(e)}")
-
-
