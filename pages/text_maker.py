@@ -76,7 +76,27 @@ if st.button("텍스트 생성"):
             messages=[{"role": "user", "content": prompt}]
         )
 
-        result = response.choices[0].message.content
-        st.write(result)
+        st.session_state.result = response.choices[0].message.content
+        st.write(st.session_state.result)
     else:
         st.warning("영어 표현을 입력해주세요.")
+
+# 생성된 텍스트가 있을 때만 다운로드 버튼 표시
+if 'result' in st.session_state:
+    st.download_button(
+        label="📥 생성된 텍스트 다운로드",
+        data=st.session_state.result,
+        file_name="generated_text.txt",
+        mime="text/plain"
+    )
+
+# 파일 다운로드 기능 추가
+with open(__file__, "r", encoding="utf-8") as file:
+    file_contents = file.read()
+
+st.download_button(
+    label="📥 이 파일 다운로드",
+    data=file_contents,
+    file_name="text_maker.py",
+    mime="text/plain"
+)
