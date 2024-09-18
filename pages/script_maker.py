@@ -37,12 +37,26 @@ def generate_scripts(expression, grade, topic, participants, num_scripts, script
 st.title("✨인공지능 영어 조교 버틀링🤵")
 st.subheader("🎭초등학생을 위한 영어 역할극 대본 생성기📝")
 
+# 확장 설명
+with st.expander("❗❗ 글상자를 펼쳐 사용방법을 읽어보세요 👆✅", expanded=False):
+    st.markdown(
+    """     
+    1️⃣ 텍스트에 포함되기 원하는 Key expressions, 또는 단어 등을 자유롭게 입력하세요.<br>
+    2️⃣ 학년, 역할 수, 대본 개수, 대본 길이를 설정하세요.<br>
+    3️⃣ 이야기의 테마를 입력하세요. (신데렐라, 백설공주 등등...)입력하지 않으면 자유롭게 생성됩니다.<br>
+    4️⃣ 생성된 역할극을 확인하고 다운 받으세요.<br>
+    <br>
+    🙏 생성된 역할극이 적절하지 않을 수 있습니다.<br> 
+    🙏 그럴 때에는 다시 [문제 만들기] 버튼을 눌러주세요.
+    """
+    , unsafe_allow_html=True)
+
 expression = st.text_area("🔸원하는 영어 표현을 입력하세요 (여러 줄 입력 가능):")
 grade = st.selectbox("🔸학년을 선택하세요:", ["3학년", "4학년", "5학년", "6학년"])
 participants = st.slider("🔸역할극 참여 인원수를 선택하세요:", min_value=2, max_value=6, value=3)
 num_scripts = st.slider("🔸생성할 대본 개수를 선택하세요:", min_value=1, max_value=10, value=6)
 script_length = st.selectbox("🔸대본의 길이를 선택하세요:", options=["짧게", "보통", "길게"], index=1)
-topic = st.text_input("🔸주제를 입력하세요 (선택사항, 예: smurfs, pokemon, etc.):")
+topic = st.text_input("🔸테마를 입력하세요 (선택사항, 예: smurfs, pokemon, etc.):")
 
 if st.button("📝대본 만들기"):
     if expression:
