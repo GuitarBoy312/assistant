@@ -15,7 +15,7 @@ def generate_scripts(expression, grade, topic, participants, num_scripts, script
     prompt = f"""한국 초등학교 {grade} EFL 학생을 위한 영어 역할극 대본을 {num_scripts}개 만들어주세요. 
     {participants}명이 참여할 수 있는 대본이어야 합니다. {length_description[script_length]} 
     다음 표현을 포함해야 합니다: '{expression}'
-    각 캐릭터의 대사 앞에 특징적인 이모지를 넣어주세요. 같은 캐릭터에는 항상 같은 이모지를 사용하세요.
+    각 캐릭터의 대사 앞에 각자 다른 특징적인 이모지를 넣어주세요. 같은 캐릭터에는 항상 같은 이모지를 사용하세요.
     예를 들어:
     🧑 Tom: Hello, how are you?
     👧 Sarah: I'm fine, thank you!
