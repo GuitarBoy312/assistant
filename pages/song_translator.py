@@ -8,7 +8,7 @@ import io
 client = OpenAI(api_key=st.secrets["openai_api_key"])
 
 # Streamlit 앱 제목 설정
-st.title("외국어 노래 학습 도우미")
+st.title("🎶외국어 노래 학습 도우미🎵")
 
 # 사용자 입력 받기
 song_input = st.text_area("노래 제목이나 가사를 입력하세요:")
