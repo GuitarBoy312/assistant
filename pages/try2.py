@@ -76,8 +76,8 @@ if st.button("📝번역하기"):
             html += "</div>"
             st.markdown(html, unsafe_allow_html=True)
 
-            # TTS 버튼 추가
-            if st.button(f"🔊 {i+1}번 줄 듣기"):
+            # TTS 버튼 수정
+            if st.button(f"🔊 {i+1}번 줄 듣기", key=f"tts_button_{i}"):
                 try:
                     audio_response = client.audio.speech.create(
                         model="tts-1",
