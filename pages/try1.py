@@ -30,7 +30,7 @@ if st.button("📝번역하기"):
     if song_input:
         # OpenAI API를 사용하여 가사 분석 및 번역
         response = client.chat.completions.create(
-            model="gpt-4-turbo-preview",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "당신은 초등학생을 위한 외국어 노래 학습 도우미입니다."},
                 {"role": "user", "content": f"""다음 노래 가사를 분석해주세요: {song_input}
