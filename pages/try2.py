@@ -76,17 +76,50 @@ if st.button("📝번역하기"):
             html += "</div>"
             st.markdown(html, unsafe_allow_html=True)
 
-            # TTS 버튼 수정
-            if st.button(f"🔊 {i+1}번 줄 듣기", key=f"tts_button_{i}"):
-                try:
-                    audio_response = client.audio.speech.create(
-                        model="tts-1",
-                        voice="alloy",
-                        input=original
-                    )
-                    st.audio(audio_response.content, format="audio/mp3")
-                except Exception as e:
-                    st.error(f"TTS API 호출 중 오류 발생: {str(e)}")
+            # TTS 버튼 대신 클릭 가능한 텍스트 생성
+            play_button = st.empty()
+            play_button.markdown(f"<div id='play-{i}' style='cursor:pointer;color:blue;'>🔊 {i+1}번 줄 듣기</div>", unsafe_allow_html=True)
+
+        # JavaScript 코드 추가
+        st.markdown("""
+        <script>
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        async function playAudio(text) {
+            const response = await fetch('https://api.openai.com/v1/audio/speech', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + 'YOUR_OPENAI_API_KEY',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: 'tts-1',
+                    voice: 'alloy',
+                    input: text
+                })
+            });
+        
+            const arrayBuffer = await response.arrayBuffer();
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            const source = audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(audioContext.destination);
+            source.start();
+        }
+        
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('[id^="play-"]').forEach(element => {
+                element.addEventListener('click', async () => {
+                    const lineNumber = element.id.split('-')[1];
+                    const textElement = document.querySelector(`#line-${lineNumber} b`);
+                    if (textElement) {
+                        await playAudio(textElement.textContent);
+                    }
+                });
+            });
+        });
+        </script>
+        """, unsafe_allow_html=True)
 
         # 추가 정보 표시
         st.subheader("주요 단어")
