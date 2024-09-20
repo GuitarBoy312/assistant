@@ -97,14 +97,17 @@ if st.button("📝번역하기"):
         # 전체 가사 TTS
         st.subheader("전체 가사 듣기")
         try:
-            full_lyrics = " ".join([line[0] for line in lyrics])
-            audio_response = client.audio.speech.create(
-                model="tts-1",
-                voice="alloy",
-                input=full_lyrics
-            )
-            st.session_state.audio_bytes = io.BytesIO(audio_response.content)
-            st.audio(st.session_state.audio_bytes, format="audio/mp3")
+            full_lyrics = " ".join([line[0].strip() for line in lyrics if line[0].strip()])
+            if full_lyrics:
+                audio_response = client.audio.speech.create(
+                    model="tts-1",
+                    voice="alloy",
+                    input=full_lyrics
+                )
+                st.session_state.audio_bytes = io.BytesIO(audio_response.content)
+                st.audio(st.session_state.audio_bytes, format="audio/mp3")
+            else:
+                st.warning("가사가 비어 있어 음성을 생성할 수 없습니다.")
         except Exception as e:
             st.error(f"전체 가사 TTS API 호출 중 오류 발생: {str(e)}")
 
