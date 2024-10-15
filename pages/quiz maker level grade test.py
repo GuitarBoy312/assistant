@@ -28,7 +28,7 @@ user_input = st.text_area("영어 지문을 입력하세요:", height=200)
 num_questions = st.number_input("생성할 문제 수:", min_value=1, max_value=10, value=3, step=1)
 
 # 학년 선택
-grade = st.selectbox("학년을 선택하세요:", ["EFL 초등학교 3학년", "EFL 초등학교 4학년", "EFL 초등학교 5학년", "EFL 초등학교 6학년"])
+grade = st.selectbox("학년을 선택하세요:", ["초등학교 3학년", "초등학교 4학년", "초등학교 5학년", "초등학교 6학년"])
 
 # 영어 수준 선택
 level = st.selectbox("영어 수준을 선택하세요:", ["상", "중", "하"])
@@ -47,7 +47,7 @@ if st.button("문제 만들기"):
         
         for i in range(num_questions):
             question_type = question_types[i % len(question_types)]
-            prompt = f"""다음 영어 지문을 바탕으로 {grade}, 영어 수준 {level}에 맞는 간단한 객관식 문제를 만들어주세요:
+            prompt = f"""다음 영어 지문을 바탕으로 EFL 환경의 {grade}, 영어 수준 {level}에 맞는 간단한 객관식 문제를 만들어주세요:
 
             {user_input}
 
