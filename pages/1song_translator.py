@@ -24,7 +24,7 @@ with st.expander("❗❗ 글상자를 펼쳐 사용방법을 읽어보세요 �
     , unsafe_allow_html=True)
     
 # 사용자 입력 받기
-song_input = st.text_area("🎼노래 가사를 입력하세요:")
+song_input = st.text_area("🎼노래 가사나 제목을 입력하세요:")
 
 if st.button("📝번역하기"):
     if song_input:
