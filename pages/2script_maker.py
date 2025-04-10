@@ -30,7 +30,7 @@ def generate_scripts(expression, grade, topic, participants, num_scripts, script
         prompt += f" 주제는 '{topic}'입니다. {topic}의 스토리를 활용하여 만들어 주세요."
     
     response = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4.5-preview",
         messages=[
             {"role": "system", "content": "당신은 초등학생을 위한 영어 교육 전문가입니다. 재미있고 교육적인 대본을 만들어주세요."},
             {"role": "user", "content": prompt}
