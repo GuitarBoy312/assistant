@@ -17,8 +17,8 @@ def generate_scripts(expression, grade, topic, participants, num_scripts, script
     다음 표현을 포함해야 합니다: '{expression}'
     각 캐릭터의 대사 앞에 각자 다른 캐릭터의 특성에 맞는(성별, 종 등) 이모지를 넣어주세요. 같은 캐릭터에는 항상 같은 이모지를 사용하세요.
     예를 들어:
-    🧑 Tom: Hello, how are you?
-    👱🏻‍♀️ Sarah: I'm fine, thank you!
+    🦁 simba: Hello, how are you?
+    👱🏻‍♀️ elsa: I'm fine, thank you!
     이런 식으로 각 캐릭터마다 다른 이모지를 사용해 주세요.
     각 대사의 옆에 한국어 독음을 넣어주세요.
     각 대사의 아래에 해석을 넣어주세요.
