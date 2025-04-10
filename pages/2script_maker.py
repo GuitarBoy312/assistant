@@ -6,9 +6,9 @@ client = OpenAI(api_key=st.secrets["openai_api_key"])
 
 def generate_scripts(expression, grade, topic, participants, num_scripts, script_length):
     length_description = {
-        "짧게": "각 대본은 각 등장인물 당 1개의 대사로 구성되어야 합니다.",
-        "보통": "각 대본은 각 등장인물 당 2개의 대사로 구성되어야 합니다.",
-        "길게": "각 대본은 각 등장인물 당 3개의 대사로 구성되어야 합니다."
+        "짧게": "대본은 각각의 등장인물 당 1개의 대사로 구성되어야 합니다.",
+        "보통": "대본은 각각의 등장인물 당 2개의 대사로 구성되어야 합니다.",
+        "길게": "대본은 각각의 등장인물 당 3개의 대사로 구성되어야 합니다."
     }
     
     prompt = f"""영어를 외국어로 사용하는 한국의 초등학교 {grade} 학생의 수준에 맞는 영어 역할극 대본을 {num_scripts}개 만들어주세요. 
@@ -20,8 +20,8 @@ def generate_scripts(expression, grade, topic, participants, num_scripts, script
     🦁 simba: Hello, how are you?
     👱🏻‍♀️ elsa: I'm fine, thank you!
     이런 식으로 각 캐릭터마다 다른 이모지를 사용해 주세요.
-    각 대사의 옆에 중괄호를 이용하여 한국어 독음을 넣어주세요.
-    한국어 독음 옆에 소괄호를 이용하여 해석을 넣어주세요.
+    각 영어 대사의 오른쪽에 중괄호를 이용하여 한국어 독음을 넣어주세요.
+    한국어 독음 오른쪽에 소괄호를 이용하여 해석을 넣어주세요.
     처음에 등장인물, 장소 등을 한국어로 넣어주세요.
     처음 장면에 대한 설명을 한국어 지문으로 넣고 장소나 상황이 바뀌거나 등장인물의 특정한 행동이 필요한 상황 등에 지문을 한국어로 넣어주세요.
     """
