@@ -20,7 +20,11 @@ def generate_scripts(expression, grade, topic, participants, num_scripts, script
     🧑 Tom: Hello, how are you?
     👱🏻‍♀️ Sarah: I'm fine, thank you!
     이런 식으로 각 캐릭터마다 다른 이모지를 사용해 주세요.
-    대화의 사이에 지문을 한국어로 넣어주세요."""
+    각 대사의 옆에 한국어 독음을 넣어주세요.
+    각 대사의 아래에 해석을 넣어주세요.
+    처음에 등장인물, 장소 등을 한국어로 넣어주세요.
+    필요하면 몇 묶음의 대화의 사이에 지문을 한국어로 넣어주세요.
+    """
     
     if topic:
         prompt += f" 주제는 '{topic}'입니다. {topic}의 스토리를 활용하여 만들어 주세요."
