@@ -21,7 +21,7 @@ def generate_scripts(expression, grade, topic, participants, num_scripts, script
     이런 식으로 각 캐릭터마다 다른 이모지를 사용해 주세요."""
     
     if topic:
-        prompt += f" 주제는 '{topic}'입니다."
+        prompt += f" 주제는 '{topic}'입니다. {topic}의 스토리를 활용하여 만들어 주세요."
     
     response = client.chat.completions.create(
         model="gpt-4o-mini",
