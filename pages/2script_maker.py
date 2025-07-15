@@ -11,7 +11,7 @@ def generate_scripts(expression, grade, topic, participants, num_scripts, script
         "길게": "대본은 각각의 등장인물 당 3번의 대사로 구성되어야 합니다."
     }
     
-    prompt = f"""영어를 외국어로 사용하는 한국의 초등학교 {grade} 학생의 수준에 맞는 영어 역할극 대본을 {num_scripts}개 만들어주세요. 
+    prompt = f"""영어를 외국어로 사용하는 한국의 초등학교 {grade} 학생의 수준에 맞는 영어 역할극 대본을 {num_scripts}개의 각각 다른 대본으로 만들어주세요. (이어지지 않게) 
     한국의 초등학생 평균 영어 수준 CEFR - 3학년:pre A1 4학년: pre A1, 5학년: A1, 6학년: A1
     {participants}명이 참여할 수 있는 대본이어야 합니다. {length_description[script_length]} 각 대사는 한 문장으로 이루어집니다.
     다음 표현을 포함해야 합니다: '{expression}'
